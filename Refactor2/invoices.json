@@ -3,7 +3,7 @@
         "customer": "BigCo",
         "performances": [
             {
-                "playID": "harmlet",
+                "playID": "hamlet",
                 "audience": 55
             },
             {

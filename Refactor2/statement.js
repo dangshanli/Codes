@@ -1,3 +1,11 @@
+const fs = require('fs');
+
+const invoices = JSON.parse(fs.readFileSync('./invoices.json'))[0];
+const plays = JSON.parse(fs.readFileSync('./plays.json'));
+const s = plays['hamlet'].type;
+// console.log(s);
+const result = statement(invoices, plays);
+console.log(result);
 
 /**
  * 打印账单详情
@@ -50,30 +58,4 @@ function statement(invoice, plays) {
     result += `Amount owned is ${format(totalAmount / 100)}\n`
     result += `you earned ${volumnCredits} credits\n`;
     return result;
-}
-
-let flag = false;
-function hello() {
-    if (flag) {
-        console.log('hello');
-        flag = false;
-    } else {
-        console.log('world');
-        flag = true;
-    }
-
-}
-
-hello();
-hello();
-
-let isDoing = true;
-let count = 0;
-while (isDoing) {
-    hello();
-    count++;
-    if (count === 100) {
-        console.log(`count=${count}`);
-        process.exit(1);//编程界面退出程序
-    }
 }
