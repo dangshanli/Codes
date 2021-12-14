@@ -15,10 +15,12 @@ console.log(result);
  * @param {剧目} play
  */
 function statement(invoice, plays) {
-	const statementData = {};
+	const statementData = {}; //中间层数据
 	statementData.customer = invoice.customer;
 	statementData.performances = invoice.performances.map(enrichPerformance);
-	return renderPlainText(statementData, plays);
+	statementData.totalAmount = totalAmount(statementData);
+	statementData.totalVolumnCredits = totalVolumnCredits(statementData);
+	return renderPlainText(statementData);
 
 	function enrichPerformance(aPerformance) {
 		const result = Object.assign({}, aPerformance);
@@ -26,6 +28,30 @@ function statement(invoice, plays) {
 		result.amount = amountFor(result);
 		result.volumnCredits = volumnCreditsFor(result);
 		return result;
+	}
+
+	/**
+   * 计算总价格
+   * @returns
+   */
+	function totalAmount(data) {
+		let result = 0;
+		for (let perf of data.performances) {
+			result += perf.amount;
+		}
+		return result;
+	}
+
+	/**
+   * 积分计算总数 分离出主函数
+   * @returns
+   */
+	function totalVolumnCredits(data) {
+		let volumnCredits = 0;
+		for (let perf of data.performances) {
+			volumnCredits += perf.volumnCredits;
+		}
+		return volumnCredits;
 	}
 
 	function playFor(aPerformance) {
@@ -77,7 +103,7 @@ function statement(invoice, plays) {
 	}
 }
 
-function renderPlainText(data, plays) {
+function renderPlainText(data) {
 	let result = `statement for ${data.customer}\n`; //账单客户
 
 	//遍历账单 循环一次
@@ -86,33 +112,9 @@ function renderPlainText(data, plays) {
 	}
 
 	//refactor:将积分计算拆出来 经过refactor 一个循环拆成了3次
-	result += `Amount owned is ${usd(totalAmount())}\n`; //内联变量 全部金额 循环一次
-	result += `you earned ${totalVolumnCredits()} credits\n`; //内联变量 全部积分 循环一次
+	result += `Amount owned is ${usd(data.totalAmount)}\n`; //内联变量 全部金额 循环一次
+	result += `you earned ${data.totalVolumnCredits} credits\n`; //内联变量 全部积分 循环一次
 	return result;
-
-	/**
-   * 计算总价格
-   * @returns
-   */
-	function totalAmount() {
-		let result = 0;
-		for (let perf of data.performances) {
-			result += perf.amount;
-		}
-		return result;
-	}
-
-	/**
-   * 积分计算总数 分离出主函数
-   * @returns
-   */
-	function totalVolumnCredits() {
-		let volumnCredits = 0;
-		for (let perf of data.performances) {
-			volumnCredits += perf.volumnCredits;
-		}
-		return volumnCredits;
-	}
 
 	/**
    * 格式化输出现金数值
