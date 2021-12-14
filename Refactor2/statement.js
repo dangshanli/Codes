@@ -15,7 +15,12 @@ console.log(result)
  * @param {剧目} play
  */
 function statement(invoice, plays) {
+  return renderPlainText(invoice, plays)
+}
+
+function renderPlainText(invoice, plays) {
   let result = `statement for ${invoice.customer}\n` //账单客户
+
   //遍历账单 循环一次
   for (let perf of invoice.performances) {
     result += `${playFor(perf).name}:${usd(amountFor(perf))} (${
@@ -115,6 +120,6 @@ function statement(invoice, plays) {
       style: 'currency',
       currency: 'USD',
       minimunFractionDigits: 2,
-    }).format(aNumber / 100) //转美元
+    }).format(aNumber / 100)
   }
 }
