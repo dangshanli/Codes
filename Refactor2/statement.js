@@ -16,11 +16,12 @@ console.log(result);
  */
 function statement(invoice, plays) {
 	const statementData = {};
+	statement.customer = invoice.customer;
 	return renderPlainText(statementData, invoice, plays);
 }
 
 function renderPlainText(data, invoice, plays) {
-	let result = `statement for ${invoice.customer}\n`; //账单客户
+	let result = `statement for ${data.customer}\n`; //账单客户
 
 	//遍历账单 循环一次
 	for (let perf of invoice.performances) {
