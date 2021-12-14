@@ -24,6 +24,7 @@ function statement(invoice, plays) {
 		const result = Object.assign({}, aPerformance);
 		result.play = playFor(result);
 		result.amount = amountFor(result);
+		result.volumnCredits = volumnCreditsFor(result);
 		return result;
 	}
 
@@ -57,6 +58,20 @@ function statement(invoice, plays) {
 				break;
 			default:
 				throw new Error(`unknow type:${aPerformance.play.type}`);
+		}
+		return result;
+	}
+
+	/**
+   * 计算积分
+   * @param {*} aPerformance
+   * @returns
+   */
+	function volumnCreditsFor(aPerformance) {
+		let result = 0;
+		result += Math.max(aPerformance.audience - 30, 0); //基本积分
+		if ('comedy' === aPerformance.play.type) {
+			result += Math.floor(aPerformance.audience / 5);
 		}
 		return result;
 	}
@@ -94,23 +109,9 @@ function renderPlainText(data, plays) {
 	function totalVolumnCredits() {
 		let volumnCredits = 0;
 		for (let perf of data.performances) {
-			volumnCredits += volumnCreditsFor(perf);
+			volumnCredits += perf.volumnCredits;
 		}
 		return volumnCredits;
-	}
-
-	/**
-   * 计算积分
-   * @param {*} aPerformance
-   * @returns
-   */
-	function volumnCreditsFor(aPerformance) {
-		let result = 0;
-		result += Math.max(aPerformance.audience - 30, 0); //基本积分
-		if ('comedy' === aPerformance.play.type) {
-			result += Math.floor(aPerformance.audience / 5);
-		}
-		return result;
 	}
 
 	/**
