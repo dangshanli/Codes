@@ -18,69 +18,17 @@ function statement(invoice, plays) {
 	const statementData = {};
 	statementData.customer = invoice.customer;
 	statementData.performances = invoice.performances.map(enrichPerformance);
-	console.log(statementData.performances[0].play.type);
 	return renderPlainText(statementData, plays);
 
 	function enrichPerformance(aPerformance) {
 		const result = Object.assign({}, aPerformance);
 		result.play = playFor(result);
+		result.amount = amountFor(result);
 		return result;
 	}
 
 	function playFor(aPerformance) {
 		return plays[aPerformance.playID];
-	}
-}
-
-function renderPlainText(data, plays) {
-	let result = `statement for ${data.customer}\n`; //账单客户
-
-	//遍历账单 循环一次
-	for (let perf of data.performances) {
-		result += `${perf.play.name}:${usd(amountFor(perf))} (${perf.audience} seats)\n`;
-	}
-
-	//refactor:将积分计算拆出来 经过refactor 一个循环拆成了3次
-	result += `Amount owned is ${usd(totalAmount())}\n`; //内联变量 全部金额 循环一次
-	result += `you earned ${totalVolumnCredits()} credits\n`; //内联变量 全部积分 循环一次
-	return result;
-
-	/**
-   * 计算总价格
-   * @returns
-   */
-	function totalAmount() {
-		let result = 0;
-		for (let perf of data.performances) {
-			result += amountFor(perf);
-		}
-		return result;
-	}
-
-	/**
-   * 积分计算总数 分离出主函数
-   * @returns
-   */
-	function totalVolumnCredits() {
-		let volumnCredits = 0;
-		for (let perf of data.performances) {
-			volumnCredits += volumnCreditsFor(perf);
-		}
-		return volumnCredits;
-	}
-
-	/**
-   * 计算积分
-   * @param {*} aPerformance
-   * @returns
-   */
-	function volumnCreditsFor(aPerformance) {
-		let result = 0;
-		result += Math.max(aPerformance.audience - 30, 0); //基本积分
-		if ('comedy' === aPerformance.play.type) {
-			result += Math.floor(aPerformance.audience / 5);
-		}
-		return result;
 	}
 
 	/**
@@ -109,6 +57,58 @@ function renderPlainText(data, plays) {
 				break;
 			default:
 				throw new Error(`unknow type:${aPerformance.play.type}`);
+		}
+		return result;
+	}
+}
+
+function renderPlainText(data, plays) {
+	let result = `statement for ${data.customer}\n`; //账单客户
+
+	//遍历账单 循环一次
+	for (let perf of data.performances) {
+		result += `${perf.play.name}:${usd(perf.amount)} (${perf.audience} seats)\n`;
+	}
+
+	//refactor:将积分计算拆出来 经过refactor 一个循环拆成了3次
+	result += `Amount owned is ${usd(totalAmount())}\n`; //内联变量 全部金额 循环一次
+	result += `you earned ${totalVolumnCredits()} credits\n`; //内联变量 全部积分 循环一次
+	return result;
+
+	/**
+   * 计算总价格
+   * @returns
+   */
+	function totalAmount() {
+		let result = 0;
+		for (let perf of data.performances) {
+			result += perf.amount;
+		}
+		return result;
+	}
+
+	/**
+   * 积分计算总数 分离出主函数
+   * @returns
+   */
+	function totalVolumnCredits() {
+		let volumnCredits = 0;
+		for (let perf of data.performances) {
+			volumnCredits += volumnCreditsFor(perf);
+		}
+		return volumnCredits;
+	}
+
+	/**
+   * 计算积分
+   * @param {*} aPerformance
+   * @returns
+   */
+	function volumnCreditsFor(aPerformance) {
+		let result = 0;
+		result += Math.max(aPerformance.audience - 30, 0); //基本积分
+		if ('comedy' === aPerformance.play.type) {
+			result += Math.floor(aPerformance.audience / 5);
 		}
 		return result;
 	}
