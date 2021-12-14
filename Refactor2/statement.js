@@ -15,25 +15,34 @@ console.log(result)
  * @param {剧目} play
  */
 function statement(invoice, plays) {
-  let totalAmount = 0
   let result = `statement for ${invoice.customer}\n` //账单客户
-  //遍历账单
+  //遍历账单 循环一次
   for (let perf of invoice.performances) {
-    // volumnCredits += volumnCreditsFor(perf)
     result += `${playFor(perf).name}:${usd(amountFor(perf))} (${
       perf.audience
     } seats)\n`
-    totalAmount += amountFor(perf)
   }
 
-  //refactor:将积分计算拆出来
-  result += `Amount owned is ${usd(totalAmount)}\n`
-  result += `you earned ${totalVolumnCredits()} credits\n`//内联变量
+  //refactor:将积分计算拆出来 经过refactor 一个循环拆成了3次
+  result += `Amount owned is ${usd(totalAmount())}\n` //内联变量 全部金额 循环一次
+  result += `you earned ${totalVolumnCredits()} credits\n` //内联变量 全部积分 循环一次
   return result
 
   /**
-   * 积分计算总数 分理出主函数
-   * @returns 
+   * 计算总价格
+   * @returns
+   */
+  function totalAmount() {
+    let result = 0
+    for (let perf of invoice.performances) {
+      result += amountFor(perf)
+    }
+    return result
+  }
+
+  /**
+   * 积分计算总数 分离出主函数
+   * @returns
    */
   function totalVolumnCredits() {
     let volumnCredits = 0
@@ -95,16 +104,17 @@ function statement(invoice, plays) {
     }
     return result
   }
-}
-/**
- * 格式化输出现金数值
- * @param {number 美分} aNumber
- * @returns
- */
-function usd(aNumber) {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimunFractionDigits: 2,
-  }).format(aNumber / 100) //转美元
+
+  /**
+   * 格式化输出现金数值
+   * @param {number 美分} aNumber
+   * @returns
+   */
+  function usd(aNumber) {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimunFractionDigits: 2,
+    }).format(aNumber / 100) //转美元
+  }
 }
