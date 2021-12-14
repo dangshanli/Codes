@@ -15,7 +15,7 @@ console.log(result);
  * @param {剧目} play
  */
 function statement(invoice, plays) {
-	const statementData = {}; //中间层数据
+	const statementData = {}; //中间层数据，相关的计算都移到中间层，renderPlainText只做文本渲染功能
 	statementData.customer = invoice.customer;
 	statementData.performances = invoice.performances.map(enrichPerformance);
 	statementData.totalAmount = totalAmount(statementData);
@@ -35,11 +35,7 @@ function statement(invoice, plays) {
    * @returns
    */
 	function totalAmount(data) {
-		let result = 0;
-		for (let perf of data.performances) {
-			result += perf.amount;
-		}
-		return result;
+		return data.performances.reduce((total, p) => total + p.amount, 0);
 	}
 
 	/**
@@ -47,11 +43,7 @@ function statement(invoice, plays) {
    * @returns
    */
 	function totalVolumnCredits(data) {
-		let volumnCredits = 0;
-		for (let perf of data.performances) {
-			volumnCredits += perf.volumnCredits;
-		}
-		return volumnCredits;
+		return data.performances.reduce((total, p) => total + p.volumnCredits, 0);
 	}
 
 	function playFor(aPerformance) {
