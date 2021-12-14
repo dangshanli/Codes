@@ -18,11 +18,17 @@ function statement(invoice, plays) {
 	const statementData = {};
 	statementData.customer = invoice.customer;
 	statementData.performances = invoice.performances.map(enrichPerformance);
+	console.log(statementData.performances[0].play.type);
 	return renderPlainText(statementData, plays);
 
 	function enrichPerformance(aPerformance) {
 		const result = Object.assign({}, aPerformance);
+		result.play = playFor(result);
 		return result;
+	}
+
+	function playFor(aPerformance) {
+		return plays[aPerformance.playID];
 	}
 }
 
@@ -31,7 +37,7 @@ function renderPlainText(data, plays) {
 
 	//遍历账单 循环一次
 	for (let perf of data.performances) {
-		result += `${playFor(perf).name}:${usd(amountFor(perf))} (${perf.audience} seats)\n`;
+		result += `${perf.play.name}:${usd(amountFor(perf))} (${perf.audience} seats)\n`;
 	}
 
 	//refactor:将积分计算拆出来 经过refactor 一个循环拆成了3次
@@ -57,7 +63,7 @@ function renderPlainText(data, plays) {
    */
 	function totalVolumnCredits() {
 		let volumnCredits = 0;
-		for (let perf of invoice.performances) {
+		for (let perf of data.performances) {
 			volumnCredits += volumnCreditsFor(perf);
 		}
 		return volumnCredits;
@@ -71,19 +77,10 @@ function renderPlainText(data, plays) {
 	function volumnCreditsFor(aPerformance) {
 		let result = 0;
 		result += Math.max(aPerformance.audience - 30, 0); //基本积分
-		if ('comedy' === playFor(aPerformance).type) {
+		if ('comedy' === aPerformance.play.type) {
 			result += Math.floor(aPerformance.audience / 5);
 		}
 		return result;
-	}
-
-	/**
-   * 内联函数
-   * @param {*} aPerformance
-   * @returns
-   */
-	function playFor(aPerformance) {
-		return plays[aPerformance.playID];
 	}
 
 	/**
@@ -96,7 +93,7 @@ function renderPlainText(data, plays) {
 	function amountFor(aPerformance) {
 		//refactor:rename param and func_name
 		let result = 0;
-		switch (playFor(aPerformance).type) {
+		switch (aPerformance.play.type) {
 			case 'tragedy': //根据剧本类型计算总价格
 				result = 40000;
 				if (aPerformance.audience > 30) {
@@ -111,7 +108,7 @@ function renderPlainText(data, plays) {
 				result += 300 * aPerformance.audience;
 				break;
 			default:
-				throw new Error(`unknow type:${playFor(aPerformance).type}`);
+				throw new Error(`unknow type:${aPerformance.play.type}`);
 		}
 		return result;
 	}
