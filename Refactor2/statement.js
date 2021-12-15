@@ -1,4 +1,6 @@
 const fs = require('fs');
+const http = require('http');
+const port = 3050;
 
 const invoice = JSON.parse(fs.readFileSync('./invoices.json'))[0];
 const plays = JSON.parse(fs.readFileSync('./plays.json'));
@@ -6,6 +8,36 @@ const s = plays['hamlet'].type;
 // console.log(s);
 const result = statement(invoice, plays);
 console.log(result);
+
+const server = http.createServer((req, res) => {
+	console.log(`url:${req.url}`);
+	let data = '';
+	if (req.url.includes('txt')) {
+		res.statusCode = 200;
+		res.setHeader('Content-Type', 'text/plain;charset=utf-8');
+		res.setHeader('Access-Control-Allow-Origin', '*');
+		res.end(`${result}`);
+	} else if (req.url.includes('htm')) {
+		res.statusCode = 200;
+		res.setHeader('Content-Type', 'text/html;charset=utf-8');
+		res.setHeader('Access-Control-Allow-Origin', '*');
+		const im = 'https://img.zcool.cn/community/0106a25a06fcb1a801204a0e25ce4b.jpg@1280w_1l_2o_100sh.jpg';
+		const out = "<h1 style='color:red'>你好世界</h1>" +
+		 `<img src='${im}' width='200px'/>` + 
+		 '<br/>' +
+		 `<p style='color:purple'>&emsp;&emsp;&emsp;鸡公煲</p>`;
+		res.end(`${out}`);
+	} else {
+		res.statusCode = 200;
+		res.setHeader('Content-Type', 'text/plain;charset=utf-8');
+		res.setHeader('Access-Control-Allow-Origin', '*');
+		res.end(`你好世界\n`);
+	}
+});
+
+server.listen(port, () => {
+	console.log(`服务器运行在http://127.0.0.1:${port}/`);
+});
 
 /**
  * 打印账单详情:
