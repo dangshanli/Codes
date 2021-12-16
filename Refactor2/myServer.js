@@ -36,6 +36,5 @@ const server = http.createServer((req, res) => {
 const os = require('os');
 server.listen(port, () => {
 	console.log(`当前进程:${process.pid}`);
-	const ip = os.networkInterfaces()['WLAN'][1]['address'];
-	console.log(`服务器运行在${ip}:${port}/`);
+	console.log(`服务器运行在127.0.0.1:${port}/`);
 });
