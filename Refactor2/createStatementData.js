@@ -34,7 +34,7 @@ class ComedyCalculator extends PerformanceCalculator {
 	}
 
 	get volumnCredits() {
-		return super.volumnCredits + Math.floor(this.performance.audience / 5);
+		return super.volumnCredits + Math.floor(this.performance.audience / 5); //戏剧要多加分
 	}
 }
 
@@ -62,12 +62,12 @@ function createPerformanceCalculator(aPerformance, aPlay) {
  * @returns 
  */
 function createStatementData(invoice, plays) {
-	const statementData = {}; //中间层数据，相关的计算都移到中间层，renderPlainText只做文本渲染功能
-	statementData.customer = invoice.customer;
-	statementData.performances = invoice.performances.map(enrichPerformance);
-	statementData.totalAmount = totalAmount(statementData);
-	statementData.totalVolumnCredits = totalVolumnCredits(statementData);
-	return statementData;
+	const result = {}; //中间层数据，相关的计算都移到中间层，renderPlainText只做文本渲染功能
+	result.customer = invoice.customer;
+	result.performances = invoice.performances.map(enrichPerformance);
+	result.totalAmount = totalAmount(result);
+	result.totalVolumnCredits = totalVolumnCredits(result);
+	return result;
 
 	function enrichPerformance(aPerformance) {
 		const calculator = createPerformanceCalculator(aPerformance, playFor(aPerformance));
@@ -96,34 +96,6 @@ function createStatementData(invoice, plays) {
 
 	function playFor(aPerformance) {
 		return plays[aPerformance.playID];
-	}
-
-	/**
-   * refactor：extract function
-   * 计算单个剧本演出的费用
-   * @param {剧本} play
-   * @param {表演秀：包含多个剧本} perf
-   * @returns   表演秀中某个剧本的费用
-   */
-	function amountFor(aPerformance) {
-		//refactor:rename param and func_name
-		//refactor:条件选择转多态
-		return new PerformanceCalculator(aPerformance, playFor(aPerformance)).amount;
-	}
-
-	/**
-   * 计算积分
-   * @param {*} aPerformance
-   * @returns
-   */
-	function volumnCreditsFor(aPerformance) {
-		let result = 0;
-		result += Math.max(aPerformance.audience - 30, 0); //基本积分
-		//戏剧特别加分
-		if ('comedy' === aPerformance.play.type) {
-			result += Math.floor(aPerformance.audience / 5);
-		}
-		return result;
 	}
 }
 
