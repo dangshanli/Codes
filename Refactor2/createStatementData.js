@@ -1,5 +1,12 @@
+class PerformanceCalculator {
+	constructor(aPerformance, aPlay) {
+		this.performances = aPerformance;
+		this.play = aPlay;
+	}
+}
+
 /**
- * 
+ * 数据计算的主要逻辑在这，渲染和计算分离
  * @param {生产数据} invoice 
  * @param {*} plays 
  * @returns 
@@ -12,6 +19,7 @@ function createStatementData(invoice, plays) {
 	statementData.totalVolumnCredits = totalVolumnCredits(statementData);
 	return statementData;
 	function enrichPerformance(aPerformance) {
+		const calculator = new PerformanceCalculator(aPerformance, playFor(aPerformance));
 		const result = Object.assign({}, aPerformance);
 		result.play = playFor(result);
 		result.amount = amountFor(result);
@@ -48,6 +56,7 @@ function createStatementData(invoice, plays) {
    */
 	function amountFor(aPerformance) {
 		//refactor:rename param and func_name
+		//refactor:条件选择转多态
 		let result = 0;
 		switch (aPerformance.play.type) {
 			case 'tragedy': //根据剧本类型计算总价格
@@ -77,6 +86,7 @@ function createStatementData(invoice, plays) {
 	function volumnCreditsFor(aPerformance) {
 		let result = 0;
 		result += Math.max(aPerformance.audience - 30, 0); //基本积分
+		//戏剧特别加分
 		if ('comedy' === aPerformance.play.type) {
 			result += Math.floor(aPerformance.audience / 5);
 		}
