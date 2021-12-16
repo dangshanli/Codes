@@ -9,13 +9,7 @@ class PerformanceCalculator {
 	}
 
 	get volumnCredits() {
-		let result = 0;
-		result += Math.max(this.performance.audience - 30, 0); //基本积分
-		//戏剧特别加分
-		if ('comedy' === this.play.type) {
-			result += Math.floor(this.performance.audience / 5);
-		}
-		return result;
+		return Math.max(this.performance.audience - 30, 0); //基本积分
 	}
 }
 
@@ -37,6 +31,10 @@ class ComedyCalculator extends PerformanceCalculator {
 		}
 		result += 300 * this.performance.audience;
 		return result;
+	}
+
+	get volumnCredits() {
+		return super.volumnCredits + Math.floor(this.performance.audience / 5);
 	}
 }
 
