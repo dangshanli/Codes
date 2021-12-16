@@ -38,6 +38,16 @@ class PerformanceCalculator {
 }
 
 /**
+ * 工厂函数 创建PerformanceCalculator类型的各种子类
+ * @param {*} aPerformance 
+ * @param {*} aPlay 
+ * @returns 
+ */
+function createPerformanceCalculator(aPerformance, aPlay) {
+	return new PerformanceCalculator(aPerformance, aPlay);
+}
+
+/**
  * 数据计算的主要逻辑在这，渲染和计算分离
  * @param {生产数据} invoice 
  * @param {*} plays 
@@ -52,7 +62,7 @@ function createStatementData(invoice, plays) {
 	return statementData;
 
 	function enrichPerformance(aPerformance) {
-		const calculator = new PerformanceCalculator(aPerformance, playFor(aPerformance));
+		const calculator = createPerformanceCalculator(aPerformance, playFor(aPerformance));
 		const result = Object.assign({}, aPerformance);
 		result.play = calculator.play;
 		result.amount = calculator.amount;
