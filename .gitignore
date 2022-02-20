@@ -25,3 +25,5 @@ hs_err_pid*
 # nodeJs
 node_modules/
 public/build/
+
+.idea
