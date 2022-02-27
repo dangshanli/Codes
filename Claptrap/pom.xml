@@ -10,6 +10,7 @@
     <modules>
         <!--线程特性实践-->
         <module>ThreadFeature</module>
+        <module>LetAlgorithm</module>
     </modules>
 
     <packaging>pom</packaging>
