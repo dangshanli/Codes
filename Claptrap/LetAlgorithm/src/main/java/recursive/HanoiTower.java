@@ -21,15 +21,15 @@ public class HanoiTower {
 
     void movePansHanoi(String from, String to, String auxPan, int panSize) {
         if (panSize == 1) {
-            System.out.println("move 1 pan from [" + from + "] to [" + to+"]");
+            System.out.println("move [1号盘] from [" + from + "] to [" + to + "]");
             return;
         }
         movePansHanoi(from, auxPan, to, panSize - 1);
-        System.out.println("move a pan from [" + from + "] to [" + to+"]");
+        System.out.printf("move [%s号盘] from [%s] to [%s]\n", panSize, from, to);
         movePansHanoi(auxPan, to, from, panSize - 1);
     }
 
     public static void main(String[] args) {
-        new HanoiTower().movePansHanoi("source","destination","aux",6);
+        new HanoiTower().movePansHanoi("起源", "目标", "辅助", 3);
     }
 }
