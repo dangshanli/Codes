@@ -3,12 +3,14 @@ package basic.client;
 import basic.gen.*;
 import org.apache.thrift.TException;
 import org.apache.thrift.protocol.TBinaryProtocol;
+import org.apache.thrift.protocol.TCompactProtocol;
 import org.apache.thrift.protocol.TProtocol;
-import org.apache.thrift.transport.TSSLTransportFactory;
-import org.apache.thrift.transport.TSocket;
-import org.apache.thrift.transport.TTransport;
-import org.apache.thrift.transport.TTransportException;
+import org.apache.thrift.server.TServer;
+import org.apache.thrift.transport.*;
+import org.apache.thrift.transport.layered.TFramedTransport;
 
+import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.util.Objects;
 
 public class JavaClient {
@@ -35,6 +37,19 @@ public class JavaClient {
         }
     }
 
+    TProtocol getCompProtocolByBlock(String host, int port) throws TTransportException {
+        TTransport transport = new TSocket(host, port);
+        transport.open();
+        return new TCompactProtocol(transport);
+    }
+
+    TProtocol getCompProtocolByNonBlock(String host, int port) throws TTransportException, IOException {
+        TTransport transport = new TNonblockingSocket(host, port);
+        transport.open();
+        return new TCompactProtocol(transport);
+    }
+
+
     //执行远程方法
     private static void perform(Calculator.Client client) throws TException {
         client.ping();
@@ -51,7 +66,7 @@ public class JavaClient {
         try {
             int quotient = client.calculate(1, work);
             System.out.println("谁能够被0除");
-        }catch (InvalidOperation e){
+        } catch (InvalidOperation e) {
             e.printStackTrace();
         }
 
