@@ -12,6 +12,7 @@
         <module>ThreadFeature</module>
         <module>LetAlgorithm</module>
         <module>ThriftFeature</module>
+        <module>Jfeat</module>
     </modules>
 
     <packaging>pom</packaging>
