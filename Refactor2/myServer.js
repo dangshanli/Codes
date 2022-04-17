@@ -1,13 +1,13 @@
 /**
  * 服务器
  */
-const fs = require('fs');
 const http = require('http');
 const render = require('./statement');
+const readFileSync = require('./utils').readJsonFile;
 const port = 3050;
 
-const invoice = JSON.parse(fs.readFileSync('./invoices.json'))[0];
-const plays = JSON.parse(fs.readFileSync('./plays.json'));
+const invoice = readFileSync('./invoices.json')[0];
+const plays = readFileSync('./plays.json');
 const server = http.createServer((req, res) => {
 	console.log(`url:${req.url}`);
 	if (req.url.includes('renderText')) {
