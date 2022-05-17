@@ -6,8 +6,8 @@ const render = require('./statement');
 const readFileSync = require('./utils').readJsonFile;
 const port = 3050;
 
-const invoice = readFileSync('./invoices.json')[0];
-const plays = readFileSync('./plays.json');
+const invoice = readFileSync('./json/invoices.json')[0];
+const plays = readFileSync('./json/plays.json');
 const server = http.createServer((req, res) => {
 	console.log(`url:${req.url}`);
 	if (req.url.includes('renderText')) {
