@@ -26,7 +26,9 @@ func main() {
 
 	printDelemiter()
 
+	//列表有序 map默认乱序
 	names := []string{"Tom", "Alice", "Lily"}
+	names = append(names, "Bibi", "MiaoMiao")
 
 	messages, errMulti := greetings.Hellos(names)
 	if errMulti != nil {

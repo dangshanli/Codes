@@ -28,3 +28,6 @@ public/build/
 
 .idea
 target
+
+# Go
+go-crash/*.exe

@@ -3,6 +3,7 @@ package greetings
 import (
 	"errors"
 	"fmt"
+	"log"
 	"math/rand"
 	"time"
 )
@@ -12,7 +13,8 @@ func Hello(name string) (string, error) {
 		return "", errors.New("empty name")
 	}
 
-	message := fmt.Sprintf(randomFormat(), name)
+	// message := fmt.Sprintf(randomFormat(), name)
+	message := fmt.Sprintf(randomFormat(),name)
 	return message, nil
 }
 
@@ -34,7 +36,11 @@ func randomFormat() string {
 func Hellos(names []string) (map[string]string, error) {
 	//(map[key-type]value-type)
 	messages := make(map[string]string) //创建map数据结构
+	log.SetPrefix("列表：")
+	log.SetFlags(0)
+
 	for _, name := range names {
+		log.Println(name)
 		message, err := Hello(name)
 		if err != nil {
 			return nil, err
