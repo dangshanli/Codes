@@ -13,6 +13,8 @@ func main() {
 	fmt.Println("Hello,Go")
 	fmt.Println(quote.Go())
 
+	printDelemiter()
+
 	log.SetPrefix("greetings:")
 	log.SetFlags(0)
 
@@ -20,6 +22,19 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-
 	fmt.Println(message)
+
+	printDelemiter()
+
+	names := []string{"Tom", "Alice", "Lily"}
+
+	messages, errMulti := greetings.Hellos(names)
+	if errMulti != nil {
+		log.Fatal(errMulti)
+	}
+	fmt.Println(messages)
+}
+
+func printDelemiter() {
+	fmt.Println("-----------------------------")
 }
