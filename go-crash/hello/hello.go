@@ -10,6 +10,11 @@ import (
 )
 
 func main() {
+	//first()
+
+}
+
+func first() {
 	fmt.Println("Hello,Go")
 	fmt.Println(quote.Go())
 
