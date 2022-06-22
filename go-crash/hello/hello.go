@@ -43,13 +43,15 @@ func main() {
 	moretype.PrintOneVertex()
 	fmt.Println("bibi=",moretype.Bibi())
 	fmt.Println("Dodo=",moretype.Dodo)	
+
+	moretype.PointerRef()
 }
 
 func first() {
 	fmt.Println("Hello,Go")
 	fmt.Println(quote.Go())
 
-	printDelemiter()
+	PrintDelemiter()
 
 	log.SetPrefix("greetings:")
 	log.SetFlags(0)
@@ -60,7 +62,7 @@ func first() {
 	}
 	fmt.Println(message)
 
-	printDelemiter()
+	PrintDelemiter()
 
 	//列表有序 map默认乱序
 	names := []string{"Tom", "Alice", "Lily"}
@@ -73,7 +75,7 @@ func first() {
 	fmt.Println(messages)
 }
 
-func printDelemiter() {
+func PrintDelemiter() {
 	fmt.Println("-----------------------------")
 }
 
