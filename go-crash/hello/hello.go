@@ -6,9 +6,12 @@ import (
 
 	"rsc.io/quote"
 
-	"example/hello/basic"
+	// "example/hello/basic"
 
 	"example.com/greetings"
+
+	// "example/hello/methodsinterfaces"
+	"example/hello/moretype"
 )
 
 func main() {
@@ -28,10 +31,18 @@ func main() {
 	// result := basic.NewtonSqrt(float64(10003))
 	// 	fmt.Println("result0=",result,",\nresult1=",math.Sqrt(float64(10003)))
 
-	basic.TimeToSunday()
-	basic.OtherSwitch()
-	basic.HelloDefer()
+	// basic.TimeToSunday()
+	// basic.OtherSwitch()
+	// basic.HelloDefer()
 
+	// v := methodsinterfaces.Vertex{3,4}
+	// fmt.Println(v.Abs())
+	// methodsinterfaces.Me()
+
+	moretype.Pp()
+	moretype.PrintOneVertex()
+	fmt.Println("bibi=",moretype.Bibi())
+	fmt.Println("Dodo=",moretype.Dodo)	
 }
 
 func first() {
@@ -65,3 +76,5 @@ func first() {
 func printDelemiter() {
 	fmt.Println("-----------------------------")
 }
+
+
