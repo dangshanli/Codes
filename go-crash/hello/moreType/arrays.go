@@ -3,6 +3,7 @@ package moretype
 import (
 	"example/hello/myutil"
 	"fmt"
+	"strings"
 )
 
 func SomeArray1() {
@@ -25,6 +26,12 @@ func SomeArray1() {
 	sliceAction()
 
 	sliceOfLenAndCap()
+
+	makeSlice()
+
+	sliceOfSlice()
+
+	appendSlice()
 }
 
 /**
@@ -120,6 +127,57 @@ func sliceOfLenAndCap() {
 	printSlice(s[1:4])
 }
 
+/**
+ * make 创建 slice
+ */
+func makeSlice() {
+	myutil.PrintHeader("使用make创建slice")
+	s := make([]int, 5)
+	printSlice2(s)
+	s = s[1:3]
+	printSlice2(s)
+	s = s[1:]
+	printSlice2(s)
+	s = s[:cap(s)]
+	printSlice2(s)
+
+}
+
+//切片的元素为切片
+func sliceOfSlice() {
+	myutil.PrintHeader("切片的切片,一个井字游戏")
+	//创建切片3X3
+	board := [][]string{
+		{"_", "_", "_"},
+		{"_", "_", "_"},
+		{"_", "_", "_"},
+	}
+	board[0][0] = "X"
+	board[2][2] = "O"
+	board[1][2] = "X"
+	board[1][0] = "O"
+	board[0][2] = "X"
+
+	for i := 0; i < len(board); i++ {
+		fmt.Printf("%s\n", strings.Join(board[i], " "))
+	}
+}
+
+//追加切片
+func appendSlice() {
+	myutil.PrintHeader("切片追加元素")
+	var s []int
+	printSlice2(s)
+
+	s = append(s, 1, 3, 5, 7, 9)
+	printSlice2(s)
+
+}
+
 func printSlice(s []string) {
 	fmt.Printf("len=%d cap=%d %v\n", len(s), cap(s), s)
+}
+
+func printSlice2(a []int) {
+	fmt.Printf("len=%d cap=%d %v\n", len(a), cap(a), a)
 }
