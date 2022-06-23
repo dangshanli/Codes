@@ -1,15 +1,7 @@
 package main
 
 import (
-	"fmt"
-	"log"
-
-	"rsc.io/quote"
-
 	// "example/hello/basic"
-
-	"example.com/greetings"
-
 	// "example/hello/methodsinterfaces"
 	"example/hello/moretype"
 )
@@ -39,44 +31,11 @@ func main() {
 	// fmt.Println(v.Abs())
 	// methodsinterfaces.Me()
 
-	moretype.Pp()
-	moretype.PrintOneVertex()
-	fmt.Println("bibi=",moretype.Bibi())
-	fmt.Println("Dodo=",moretype.Dodo)	
+	// moretype.Pp()
+	// moretype.PrintOneVertex()
+	// fmt.Println("bibi=", moretype.Bibi())
+	// fmt.Println("Dodo=", moretype.Dodo)
+	// moretype.PointerRef()
 
-	moretype.PointerRef()
+	moretype.SomeArray1()
 }
-
-func first() {
-	fmt.Println("Hello,Go")
-	fmt.Println(quote.Go())
-
-	PrintDelemiter()
-
-	log.SetPrefix("greetings:")
-	log.SetFlags(0)
-
-	message, err := greetings.Hello("Tom")
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Println(message)
-
-	PrintDelemiter()
-
-	//列表有序 map默认乱序
-	names := []string{"Tom", "Alice", "Lily"}
-	names = append(names, "Bibi", "MiaoMiao")
-
-	messages, errMulti := greetings.Hellos(names)
-	if errMulti != nil {
-		log.Fatal(errMulti)
-	}
-	fmt.Println(messages)
-}
-
-func PrintDelemiter() {
-	fmt.Println("-----------------------------")
-}
-
-
