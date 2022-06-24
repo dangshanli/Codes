@@ -37,5 +37,6 @@ func main() {
 	// fmt.Println("Dodo=", moretype.Dodo)
 	// moretype.PointerRef()
 
+	// moretype.ResoveDp()
 	moretype.SomeArray1()
 }

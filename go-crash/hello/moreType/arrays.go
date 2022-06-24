@@ -3,7 +3,10 @@ package moretype
 import (
 	"example/hello/myutil"
 	"fmt"
+	"math"
 	"strings"
+
+	"golang.org/x/tour/pic"
 )
 
 func SomeArray1() {
@@ -32,6 +35,12 @@ func SomeArray1() {
 	sliceOfSlice()
 
 	appendSlice()
+
+	rangeUse()
+
+	rangeSkip()
+
+	invokePic()
 }
 
 /**
@@ -171,7 +180,45 @@ func appendSlice() {
 
 	s = append(s, 1, 3, 5, 7, 9)
 	printSlice2(s)
+}
 
+func rangeUse() {
+	myutil.PrintHeader("range slice")
+	var pow = []int{1, 2, 4, 8, 16, 32, 64, 128}
+	for i, v := range pow {
+		fmt.Printf("2**%d = %d\n", i, v)
+	}
+}
+
+func rangeSkip() {
+	myutil.PrintHeader("range slice skip")
+	pow := make([]int, 10)
+	for i := range pow {
+		pow[i] = 1 << uint(i) // 2**i
+	}
+	for _, v := range pow {
+		fmt.Printf("%d\n", v)
+	}
+}
+
+func aPic(dx, dy int) [][]uint8 {
+	s := make([][]uint8, dy)
+	for i := range s {
+		s[i] = make([]uint8, dx)
+	}
+
+	for i := 0; i < len(s); i++ {
+		for j := range s[i] {
+			//(x+y)/2, x*y, x^y, x*log(y) 和 x%(y+1) 几个公式
+			s[i][j] = uint8(i * int(math.Log(float64(j))))
+		}
+	}
+	return s
+}
+
+func invokePic() {
+	myutil.PrintHeader("pic show，这里会转换出一张图，终端只会显示出相应的字符串")
+	pic.Show(aPic)
 }
 
 func printSlice(s []string) {
