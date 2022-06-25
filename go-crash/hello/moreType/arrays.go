@@ -40,7 +40,21 @@ func SomeArray1() {
 
 	rangeSkip()
 
-	invokePic()
+	// invokePic()
+
+	makeMap()
+
+	assignMap()
+
+	modifyMap()
+
+	aWc()
+
+	functionAsParam()
+
+	twoAdder()
+
+	doFib()
 }
 
 /**
@@ -219,6 +233,130 @@ func aPic(dx, dy int) [][]uint8 {
 func invokePic() {
 	myutil.PrintHeader("pic show，这里会转换出一张图，终端只会显示出相应的字符串")
 	pic.Show(aPic)
+}
+
+type Vertex2 struct {
+	Lat, Long float64
+}
+
+func makeMap() {
+	myutil.PrintHeader("map的创建和赋值")
+	m := make(map[string]Vertex2)
+	fmt.Println(m)
+	m["Bell Lab"] = Vertex2{45.66, -78.998}
+	fmt.Println(m["Bell Lab"])
+}
+
+func assignMap() {
+	myutil.PrintHeader("初始化Map")
+	var m = map[string]Vertex2{
+		"Bell":   {33.9, 90.0},
+		"Google": {34.009, -54.99},
+	}
+	fmt.Println(m)
+}
+
+func modifyMap() {
+	myutil.PrintHeader("修改map")
+	m := make(map[string]int)
+	key := "answer"
+	m[key] = 44
+	fmt.Println("value=", m["answer"])
+
+	m[key] = 99
+	fmt.Println("after modifying,value=", m["answer"])
+
+	delete(m, key)
+
+	v, ok := m[key]
+	fmt.Printf("value=%v,ok?=%v\n", v, ok)
+
+}
+
+func aWc() {
+	myutil.PrintHeader("Word Counter")
+	m := countWord("foo bar ss 3 dd m m over over like foo bar")
+	fmt.Println(m)
+}
+
+func countWord(s string) map[string]int {
+	result := make(map[string]int) //返回值
+	words := strings.Fields(s)     //分割字符串
+	for _, v := range words {
+		elm, ok := result[v]
+		if ok {
+			result[v] = (elm + 1)
+		} else {
+			result[v] = 1
+		}
+	}
+	return result
+}
+
+//函数作为参数
+//函数作为变量定义在 函数内部，相当于函数中的函数
+func compute(fn func(float64, float64) float64) float64 {
+	return fn(3, 4)
+}
+
+func functionAsParam() {
+	myutil.PrintHeader("函数内部定义函数变量，函数作为入参")
+	//定义一个内部函数，函数作为变量，可被传递做入参，也可以作为返回值
+	hypot := func(x, y float64) float64 {
+		return math.Sqrt(x*x + y*y)
+	}
+
+	fmt.Println(hypot(5, 12))      //算出 hypot->5,12的值
+	fmt.Println(compute(hypot))    //hypot(3,4)
+	fmt.Println(compute(math.Pow)) //math.Pow(3,4)
+}
+
+func adder() func(int) int {
+	sum := 0
+	return func(i int) int {
+		sum += i
+		return sum
+	}
+}
+
+func twoAdder() {
+	myutil.PrintHeader("函数作为返回值")
+	pos, neg := adder(), adder()
+	for i := 0; i < 10; i++ {
+		fmt.Println(
+			pos(i),
+			neg(-2*i),
+		)
+	}
+}
+
+//0 1 1 2 3 5
+func fibonacci() func() int {
+	current, last, times := 1, 0, 0
+	return func() int {
+		if times == 0 {
+			times++
+			return 0
+		}
+
+		if times == 1 {
+			times++
+			return 1
+		}
+
+		next := current + last
+		last = current
+		current = next
+		return next
+	}
+}
+
+func doFib() {
+	myutil.PrintHeader("使用递归斐波那契数列")
+	f := fibonacci()
+	for i := 0; i < 10; i++ {
+		fmt.Println(f())
+	}
 }
 
 func printSlice(s []string) {
