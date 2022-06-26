@@ -11,6 +11,10 @@ import (
 
 	"io"
 
+	"image"
+	"image/color"
+
+	"golang.org/x/tour/pic"
 	"golang.org/x/tour/reader"
 )
 
@@ -45,6 +49,8 @@ func Me() {
 	doReader()
 
 	invokeRot()
+
+	outPic()
 }
 
 type MyFloat float64
@@ -137,4 +143,26 @@ func invokeRot() {
 	s := strings.NewReader("Lbh penpxrq gur pbqr!")
 	r := rot13Reader{s}
 	io.Copy(os.Stdout, &r)
+}
+
+type Image struct {
+	w, h int
+}
+
+func (m Image) Bounds() image.Rectangle {
+	return image.Rect(0, 0, m.w, m.h)
+}
+
+func (m Image) ColorModel() color.Model {
+	return color.RGBAModel
+}
+
+func (m Image) At(x, y int) color.Color {
+	return color.RGBA{uint8(x * y), uint8(x * y), 255, 255}
+}
+
+func outPic() {
+	myutil.PrintHeader("使用image package打印图片")
+	m := Image{200, 150}
+	pic.ShowImage(m)
 }
