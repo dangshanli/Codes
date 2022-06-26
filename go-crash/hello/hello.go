@@ -2,8 +2,8 @@ package main
 
 import (
 	// "example/hello/basic"
-	// "example/hello/methodsinterfaces"
-	"example/hello/moretype"
+	"example/hello/methodsinterfaces"
+	// "example/hello/moretype"
 )
 
 func main() {
@@ -38,5 +38,6 @@ func main() {
 	// moretype.PointerRef()
 
 	// moretype.ResoveDp()
-	moretype.SomeArray1()
+	// moretype.SomeArray1()
+	methodsinterfaces.Me()
 }
