@@ -6,6 +6,12 @@ import (
 	"fmt"
 	"math"
 	"math/rand"
+	"os"
+	"strings"
+
+	"io"
+
+	"golang.org/x/tour/reader"
 )
 
 type Vertex struct {
@@ -35,6 +41,10 @@ func Me() {
 	useInterface()
 
 	otherInterface()
+
+	doReader()
+
+	invokeRot()
 }
 
 type MyFloat float64
@@ -81,4 +91,50 @@ func otherInterface() {
 
 type Momo interface {
 	M()
+}
+
+type MyReader struct{}
+
+func (m MyReader) Read(bb []byte) (int, error) {
+	for i := 0; i < len(bb); i++ {
+		bb[i] = 'A'
+	}
+	return len(bb), nil
+}
+
+func doReader() {
+	myutil.PrintHeader("小作业,实现Read方法")
+	reader.Validate(MyReader{})
+}
+
+type rot13Reader struct {
+	r io.Reader
+}
+
+func (rot rot13Reader) Read(bb []byte) (int, error) {
+	x, err := rot.r.Read(bb)
+	if err == nil {
+		for i := 0; i < x; i++ {
+			bb[i] = rot13(bb[i])
+		}
+	} else {
+		fmt.Println(err)
+	}
+	return x, err
+}
+
+func rot13(b byte) byte {
+	if b >= 'A' && b <= 'Z' {
+		b = 'A' + (b-'A'+13)%26
+	} else if b >= 'a' && b <= 'z' {
+		b = 'a' + (b-'a'+13)%26
+	}
+	return b
+}
+
+func invokeRot() {
+	myutil.PrintHeader("Read装饰器，rot13转换")
+	s := strings.NewReader("Lbh penpxrq gur pbqr!")
+	r := rot13Reader{s}
+	io.Copy(os.Stdout, &r)
 }
