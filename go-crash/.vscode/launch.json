@@ -10,10 +10,11 @@
             "request": "launch",
             "mode": "auto",
             "env": {
-                "GOROOT":"C:/Program Files/Go",
-                "GOPATH": "C:/Users/admin/go"
+                "GOROOT":"D:/devtools/Go",
+                "GOPATH": "C:/Users/karas/go"
             },
-            "program": "${fileDirname}"
+            // "program": "${fileDirname}"
+            "program": "hello/hello.go"
         }
     ]
 }

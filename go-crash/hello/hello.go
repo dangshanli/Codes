@@ -1,9 +1,7 @@
 package main
 
 import (
-	// "example/hello/basic"
-	"example/hello/methodsinterfaces"
-	// "example/hello/moretype"
+	"example/hello/copyfile"
 )
 
 func main() {
@@ -39,5 +37,8 @@ func main() {
 
 	// moretype.ResoveDp()
 	// moretype.SomeArray1()
-	methodsinterfaces.Me()
+	//methodsinterfaces.Me()
+
+	copyfile.CopyAll("E:\\Temp", "E:\\tt")
+
 }
