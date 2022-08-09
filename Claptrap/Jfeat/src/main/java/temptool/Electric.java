@@ -1,6 +1,5 @@
 package temptool;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,12 +19,11 @@ public class Electric {
             allFee += person.getAirConditioningFee();
         }
 
-        double avgPrice = (total - allFee) / persons.size();// 这里少一个人
+        double avgPrice = (total - allFee) / persons.size();
         persons.stream().forEach(person -> {
             System.out.println(person.getName() + ":" + (person.getAirConditioningFee() + avgPrice) + "元");
         });
     }
-
 
     public static void main(String[] args) {
         Electric electric = new Electric(354.70, Arrays.asList(
