@@ -20,12 +20,9 @@ public class Electric {
             allFee += person.getAirConditioningFee();
         }
 
-        double avgPrice = (total - allFee) / (persons.size() - 1);// 这里少一个人
+        double avgPrice = (total - allFee) / persons.size();// 这里少一个人
         persons.stream().forEach(person -> {
-            if (person.getName().equals("阴雨")) {
-                System.out.println(person.getName() + ":" + person.getAirConditioningFee() + "元");
-            } else
-                System.out.println(person.getName() + ":" + (person.getAirConditioningFee() + avgPrice) + "元");
+            System.out.println(person.getName() + ":" + (person.getAirConditioningFee() + avgPrice) + "元");
         });
     }
 
