@@ -27,7 +27,7 @@ public class MaxMultiSerial {
                 excludeIndex = i;
             }
         }
-        P.printInfo("excludeIndex={}", excludeIndex);
+        P.info("excludeIndex={}", excludeIndex);
         return max;
     }
 
@@ -50,7 +50,7 @@ public class MaxMultiSerial {
         }
 
         if (map.containsKey(String.format("%s:%s", start, end))) {// 没屌用 这里只是简单的分治
-            P.printInfo("{}","hint");
+            P.info("{}","hint");
             return map.get(String.format("%s:%s", start, end));
         }
 
@@ -111,13 +111,13 @@ public class MaxMultiSerial {
         System.out.println();
         long start = System.currentTimeMillis();
         WrapperMax max = new MaxMultiSerial().maxSubSerial2(rr, 0, rr.length - 1);
-        P.printInfo("max result = {}", max);
-        P.printInfo("{}",System.currentTimeMillis()-start);
+        P.info("max result = {}", max);
+        P.info("{}",System.currentTimeMillis()-start);
         System.out.println("----------------------------------------------------------------");
         start = System.currentTimeMillis();
         double result = new MaxMultiSerial().maxNumber(rr);
-        P.printInfo("max result = {}", result);
-        P.printInfo("{}",System.currentTimeMillis()-start);
+        P.info("max result = {}", result);
+        P.info("{}",System.currentTimeMillis()-start);
 //        max result = MaxMultiSerial.WrapperMax(max=Infinity, min=Infinity, allMulti=Infinity)
 //        319 ms
 //        ----------------------------------------------------------------
