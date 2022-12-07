@@ -39,15 +39,24 @@ public class ParserOne {
         elements.eachAttr("data-src").forEach(e -> {
             String fName = e.substring(e.lastIndexOf("/") + 1);
             System.out.println(fName);
+            String path = "E:\\Downloads\\fallen-lady-8-1\\";
+            if (!Files.exists(Paths.get(path))) {
+                try {
+                    Files.createDirectory(Paths.get(path));
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                    throw new RuntimeException(ex);
+                }
+            }
             executorService.submit(() -> {
                 try {
                     Connection.Response response = Jsoup.connect(e).userAgent("Mozilla").ignoreContentType(true).execute();
-                    Files.copy(response.bodyStream(), Paths.get("E:\\Downloads\\123456\\" + fName), StandardCopyOption.REPLACE_EXISTING);
+                    Files.copy(response.bodyStream(), Paths.get(path + fName), StandardCopyOption.REPLACE_EXISTING);
                 } catch (MalformedURLException ex) {
                     ex.printStackTrace();
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
-                }finally {
+                } finally {
                     latch.countDown();
                 }
             });
@@ -62,10 +71,10 @@ public class ParserOne {
     public static void main(String[] args) {
         ParserOne parserOne = new ParserOne();
         try {
-            parserOne.resolveFallenLady(parserOne.getDocument("https://allporncomic.com/porncomic/fallen-lady-jared999da/7-1-fallen-lady-part-1/"));
+            parserOne.resolveFallenLady(parserOne.getDocument("https://allporncomic.com/porncomic/fallen-lady-jared999da/8-1-fallen-lady-chapter-8-jared999d/"));
         } catch (IOException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             parserOne.shutdown();
         }
     }
